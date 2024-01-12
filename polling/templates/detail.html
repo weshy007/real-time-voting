@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block title %}{{ poll.question }}{% endblock %}
@@ -28,25 +27,28 @@
       {% endfor %}
     </ul>
   </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-  function updatePollResults(){
-      $.get("{% url 'polling:poll_results_api' poll.id %}", function (data) {
-          let resultsDiv = $('#vote-results');
-          resultsDiv.empty();
-          resultsDiv.append('<h3>Results: </h3>');
-          let resultList = $('<ul>');
-          let totalVotesSpan = $('#total-votes');
-          totalVotesSpan.empty();
-          totalVotesSpan.append(data.total_votes)
-          data.results.forEach(function (choice) {
-              resultList.append('<li>' + choice.choice_text + '-' + choice.votes + 'votes</li>');
-          });
-          resultsDiv.append(resultList);
-      })
-  }
+    function updatePollResults() {
+        $.get("{% url 'polling:poll_results_api' poll.id %}", function(data) {
+            var resultsDiv = $('#vote-results');
+            resultsDiv.empty();
+            resultsDiv.append('<h3>Results:</h3>');
+            var resultsList = $('<ul>');
+            var totalVotesSpan = $('#total-votes');
+            totalVotesSpan.empty();
+            totalVotesSpan.append(data.total_votes)
+            data.results.forEach(function(choice) {
+                resultsList.append('<li>' + choice.choice_text + ' - ' + choice.votes + ' votes</li>');
+            });
+            resultsDiv.append(resultsList);
+        });
+    }
 
+    // Update poll results every 5 seconds
+    setInterval(updatePollResults, 5000); // Adjust the interval as needed
+  </script>
+  <script>
     // Hide messages with the 'disappearing' tag after 5 seconds
     const disappearingMessages = document.querySelectorAll('.messages');
     console.log(disappearingMessages);

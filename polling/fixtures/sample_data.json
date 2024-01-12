@@ -1,0 +1,55 @@
+[
+    {
+        "model": "polling.poll",
+        "pk": 1,
+        "fields": {
+            "question": "What's your favorite color?",
+            "pub_date": "2023-08-13T00:00:00Z"
+        }
+    },
+    {
+        "model": "polling.choice",
+        "pk": 1,
+        "fields": {
+            "poll": 1,
+            "choice_text": "Blue",
+            "votes": 0
+        }
+    },
+    {
+        "model": "polling.choice",
+        "pk": 2,
+        "fields": {
+            "poll": 1,
+            "choice_text": "Red",
+            "votes": 0
+        }
+    },
+    {
+        "model": "polling.choice",
+        "pk": 3,
+        "fields": {
+            "poll": 1,
+            "choice_text": "Green",
+            "votes": 0
+        }
+    },
+    {
+        "model": "polling.choice",
+        "pk": 4,
+        "fields": {
+            "poll": 1,
+            "choice_text": "Yellow",
+            "votes": 0
+        }
+    },
+    {
+        "model": "polling.choice",
+        "pk": 5,
+        "fields": {
+            "poll": 1,
+            "choice_text": "Other",
+            "votes": 0
+        }
+    }
+]

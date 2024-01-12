@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block title %}{{ poll.question }}{% endblock %}
@@ -19,7 +20,33 @@
   </div>
   {% endif %}
   <div id="votes-count">Total votes: <span id="total-votes">{{ total_votes }}</span></div>
+  <div id="vote-results">
+    <h3>Results:</h3>
+    <ul>
+      {% for choice in poll.choice_set.all %}
+        <li>{{ choice.choice_text }} - {{ choice.votes }} votes</li>
+      {% endfor %}
+    </ul>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <script>
+  function updatePollResults(){
+      $.get("{% url 'polling:poll_results_api' poll.id %}", function (data) {
+          let resultsDiv = $('#vote-results');
+          resultsDiv.empty();
+          resultsDiv.append('<h3>Results: </h3>');
+          let resultList = $('<ul>');
+          let totalVotesSpan = $('#total-votes');
+          totalVotesSpan.empty();
+          totalVotesSpan.append(data.total_votes)
+          data.results.forEach(function (choice) {
+              resultList.append('<li>' + choice.choice_text + '-' + choice.votes + 'votes</li>');
+          });
+          resultsDiv.append(resultList);
+      })
+  }
+
     // Hide messages with the 'disappearing' tag after 5 seconds
     const disappearingMessages = document.querySelectorAll('.messages');
     console.log(disappearingMessages);

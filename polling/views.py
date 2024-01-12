@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.db.models import Sum
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from polling.forms import VoteForm
@@ -39,3 +40,10 @@ def detail(request, poll_id):
     }
 
     return render(request, 'detail.html', context)
+
+
+def poll_results_api(request, poll_id):
+    poll = get_object_or_404(Poll, pk=poll_id)
+    total_votes = poll.choice_set.aggregate(Sum('votes'))['votes_sum']
+    results = [{'choice_text': choice.choice_text, 'votes': choice.votes} for choice in poll.choice_set.all()]
+    return JsonResponse({'results': results, 'total_votes': total_votes})

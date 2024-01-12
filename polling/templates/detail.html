@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ poll.question }}{% endblock %}
+
+{% block content %}
+  <h2>{{ poll.question }}</h2>
+  <form method="post" action="{% url 'polling:detail' poll.id %}">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Vote</button>
+  </form>
+  {% if messages %}
+  <div class="messages">
+    <ul class="messages-list">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div id="votes-count">Total votes: <span id="total-votes">{{ total_votes }}</span></div>
+  <script>
+    // Hide messages with the 'disappearing' tag after 5 seconds
+    const disappearingMessages = document.querySelectorAll('.messages');
+    console.log(disappearingMessages);
+    disappearingMessages.forEach(message => {
+      setTimeout(() => {
+        message.style.display = 'none';
+      }, 5000); // Adjust the delay (in milliseconds) as needed
+    });
+  </script>
+{% endblock %}
